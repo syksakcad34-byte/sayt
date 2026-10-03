@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chiptalar & Merch | SONIC WAVE Festival</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================= VARIABLES & RESET ================= */
+        :root {
+            --bg-color: #0a0a0e;
+            --text-color: #ffffff;
+            --primary: #bc13fe;
+            --secondary: #00f0ff;
+            --accent-gold: #feca13;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --card-bg: #13131c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; text-transform: uppercase; }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ================= NAVBAR ================= */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 2px; }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: var(--secondary); }
+
+        .cart-btn-wrapper {
+            position: relative;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(188, 19, 254, 0.4);
+        }
+
+        .cart-badge {
+            background: #ff0055;
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 900;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ================= PAGE HEADER ================= */
+        .page-header {
+            padding: 160px 5% 60px;
+            text-align: center;
+            background: radial-gradient(circle at 50% 20%, #1d0936 0%, var(--bg-color) 70%);
+        }
+
+        .page-header h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            color: #aaa;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ================= TICKETS SECTION ================= */
+        .section { padding: 60px 5%; max-width: 1300px; margin: 0 auto; }
+        .section-title { font-size: 2.2rem; margin-bottom: 40px; text-align: center; }
+
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .ticket-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .ticket-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(188, 19, 254, 0.2);
+        }
+
+        .ticket-card.popular {
+            border: 2px solid var(--secondary);
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.05) 0%, var(--card-bg) 100%);
+        }
+
+        .badge {
+            position: absolute;
+            top: -15px; right: 30px;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .ticket-header h3 { font-size: 1.8rem; margin-bottom: 10px; }
+        .ticket-price { font-size: 2.2rem; font-weight: 900; color: var(--secondary); margin-bottom: 25px; }
+        .ticket-price span { font-size: 1rem; color: #888; font-weight: 400; }
+
+        .ticket-features { margin-bottom: 30px; }
+        .ticket-features li {
+            margin-bottom: 12px;
+            color: #ccc;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ticket-features li::before {
+            content: "✓";
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        /* ================= MERCH STORE SECTION ================= */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Space Grotesk';
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .merch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .merch-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .merch-card:hover { transform: translateY(-5px); }
+
+        .merch-img-wrapper {
+            height: 240px;
+            position: relative;
+            background: #1c1c28;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .merch-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.2);
+            font-weight: 900;
+        }
+
+        .merch-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .merch-title { font-size: 1.2rem; margin-bottom: 8px; }
+        .merch-price { font-size: 1.3rem; font-weight: 700; color: var(--secondary); margin-bottom: 15px; }
+
+        .size-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .size-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--glass-border);
+            background: transparent;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .size-btn.active, .size-btn:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        /* ================= MODAL & CART DRAWER ================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: flex-end;
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .cart-drawer {
+            width: 100%;
+            max-width: 480px;
+            height: 100%;
+            background: #111118;
+            border-left: 1px solid var(--glass-border);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.open .cart-drawer {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .item-details h4 { font-size: 1rem; margin-bottom: 4px; }
+        .item-details p { font-size: 0.85rem; color: #888; }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--glass-bg);
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+
+        .qty-btn {
+            background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer;
+        }
+
+        .cart-footer {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 20px;
+        }
+
+        .total-price {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        footer { padding: 40px 5%; text-align: center; background: #050507; border-top: 1px solid #222; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .cart-drawer { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <a href="index.html" class="logo">SONIC<span class="gradient-text">WAVE</span></a>
+        <nav class="nav-links">
+            <a href="index.html">Asosiy</a>
+            <a href="index.html#lineup">Dastur</a>
+            <a href="products.html" class="active">Chiptalar & Merch</a>
+            <a href="about.html">Festival Haqida</a>
+        </nav>
+        <div class="cart-btn-wrapper">
+            <button class="btn" onclick="toggleCart()">
+                🛒 Savat <span class="cart-badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Chiptalar Va <span class="gradient-text">Festival Merch</span></h1>
+        <p>Unutilmas tajribani tanlang. VIP imtiyozlar va eksklyuziv festival atributlarini xarid qiling.</p>
+    </section>
+
+    <!-- Tickets Section -->
+    <section class="section">
+        <h2 class="section-title">Chipta <span class="gradient-text">Paketlari</span></h2>
+        
+        <div class="ticket-grid">
+            <!-- 1 Day Pass -->
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <h3>1 Kunlik Pass</h3>
+                    <div class="ticket-price">350,000 <span>UZS</span></div>
+                </div>
+                <ul class="ticket-features">
+                    <li>Istalgan 1 kunga kirish huquqi</li>
+                    <li>General Admission zonasi</li>
+                    <li>Food & Drinks zonasiga kirish</li>
+                    <li>Standard festival bilaguzugi</li>
+                </ul>
+                <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('1 Kunlik Pass', 350000, 'Ticket')">Sotib Olish</button>
+            </div>
+
+            <!-- VIP Pass -->
+            <div class="ticket-card popular">
+                <div class="badge">Eng Ommabop</div>
+                <div class="ticket-header">
+                    <h3>3 Kunlik VIP Pass</h3>
+                    <div class="ticket-price">950,000 <span>UZS</span></div>
+                </div>
+                <ul class="ticket-features">
+                    <li>Barcha 3 kunga to'liq kirish</li>
+                    <li>VIP Fast-Track navbatsiz kirish</li>
+                    <li>Main Stage oldidagi maxsus VIP zona</li>
+                    <li>Alohida VIP bar va lounge</li>
+                    <li>Eksklyuziv Neon Lanyard gifts</li>
+                </ul>
+                <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('3 Kunlik VIP Pass', 950000, 'Ticket')">Sotib Olish</button>
+            </div>
+
+            <!-- Backstage Ultra Pass -->
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <h3>Backstage Ultra</h3>
+                    <div class="ticket-price">2,500,000 <span>UZS</span></div>
+                </div>
+                <ul class="ticket-features">
+                    <li>Barcha VIP imtiyozlar</li>
+                    <li>Artistlar bilan Meet & Greet</li>
+                    <li>Backstage zonaga eksklyuziv ruxsat</li>
+                    <li>Rasmiy Sonic Wave Merch T-shirt bepul</li>
+                    <li>VIP Avtoturargoh joyi</li>
+                </ul>
+                <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('Backstage Ultra Pass', 2500000, 'Ticket')">Sotib Olish</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Merch Store Section -->
+    <section class="section" style="background: #0d0d14; max-width: 100%; border-top: 1px solid var(--glass-border);">
+        <div style="max-width: 1300px; margin: 0 auto;">
+            <h2 class="section-title">Rasmiy <span class="gradient-text">Festival Merch</span></h2>
+            
+            <div class="filter-tabs">
+                <button class="filter-btn active" onclick="filterMerch('all', this)">Barchasi</button>
+                <button class="filter-btn" onclick="filterMerch('clothing', this)">Kiyimlar</button>
+                <button class="filter-btn" onclick="filterMerch('accessories', this)">Aksessuarlar</button>
+            </div>
+
+            <div class="merch-grid" id="merchGrid">
+                <!-- Merch Item 1 -->
+                <div class="merch-card" data-category="clothing">
+                    <div class="merch-img-wrapper">
+                        <div class="merch-placeholder" style="background: linear-gradient(135deg, #1f0030, #3a005c);">👕</div>
+                    </div>
+                    <div class="merch-info">
+                        <div>
+                            <h3 class="merch-title">Sonic Wave Oversize Hoodie</h3>
+                            <div class="merch-price">320,000 UZS</div>
+                            <div class="size-selector">
+                                <button class="size-btn active">S</button>
+                                <button class="size-btn">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                        </div>
+                        <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('Sonic Wave Oversize Hoodie', 320000, 'Merch')">Savatga Qo'shish</button>
+                    </div>
+                </div>
+
+                <!-- Merch Item 2 -->
+                <div class="merch-card" data-category="clothing">
+                    <div class="merch-img-wrapper">
+                        <div class="merch-placeholder" style="background: linear-gradient(135deg, #002b36, #005f73);">👕</div>
+                    </div>
+                    <div class="merch-info">
+                        <div>
+                            <h3 class="merch-title">Cyber Neon T-Shirt 2027</h3>
+                            <div class="merch-price">180,000 UZS</div>
+                            <div class="size-selector">
+                                <button class="size-btn">M</button>
+                                <button class="size-btn active">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                        </div>
+                        <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('Cyber Neon T-Shirt 2027', 180000, 'Merch')">Savatga Qo'shish</button>
+                    </div>
+                </div>
+
+                <!-- Merch Item 3 -->
+                <div class="merch-card" data-category="accessories">
+                    <div class="merch-img-wrapper">
+                        <div class="merch-placeholder" style="background: linear-gradient(135deg, #3d001e, #800040);">🧢</div>
+                    </div>
+                    <div class="merch-info">
+                        <div>
+                            <h3 class="merch-title">Neon Glow Festival Kepka</h3>
+                            <div class="merch-price">120,000 UZS</div>
+                        </div>
+                        <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('Neon Glow Festival Kepka', 120000, 'Merch')">Savatga Qo'shish</button>
+                    </div>
+                </div>
+
+                <!-- Merch Item 4 -->
+                <div class="merch-card" data-category="accessories">
+                    <div class="merch-img-wrapper">
+                        <div class="merch-placeholder" style="background: linear-gradient(135deg, #2b2b00, #5c5c00);">🕶️</div>
+                    </div>
+                    <div class="merch-info">
+                        <div>
+                            <h3 class="merch-title">Cyberpunk LED Ko'zoynak</h3>
+                            <div class="merch-price">150,000 UZS</div>
+                        </div>
+                        <button class="btn" style="width: 100%; justify-content: center;" onclick="addToCart('Cyberpunk LED Ko\'zoynak', 150000, 'Merch')">Savatga Qo'shish</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Modal Drawer -->
+    <div class="modal-overlay" id="cartModal">
+        <div class="cart-drawer">
+            <div class="cart-header">
+                <h3>Sizning <span class="gradient-text">Savatingiz</span></h3>
+                <button class="close-btn" onclick="toggleCart()">&times;</button>
+            </div>
+
+            <div class="cart-items" id="cartItemsList">
+                <p style="color: #666; text-align: center; margin-top: 50px;">Savatingiz hozircha bo'sh.</p>
+            </div>
+
+            <div class="cart-footer">
+                <div class="total-price">
+                    <span>Jami:</span>
+                    <span id="totalAmount">0 UZS</span>
+                </div>
+
+                <form class="checkout-form" id="checkoutForm" onsubmit="handleCheckout(event)">
+                    <input type="text" class="form-input" placeholder="Ism Familiyangiz" required>
+                    <input type="tel" class="form-input" placeholder="+998 (90) 123-45-67" required>
+                    <select class="form-input" style="background: #1a1a24;" required>
+                        <option value="">To'lov usulini tanlang</option>
+                        <option value="click">Click</option>
+                        <option value="payme">Payme</option>
+                        <option value="card">Uzcard / Humo</option>
+                    </select>
+                    <button type="submit" class="btn" style="width: 100%; justify-content: center; padding: 15px; margin-top: 10px;">Buyurtmani Tasdiqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">Mahsulot savatga qo'shildi!</div>
+
+    <!-- Footer -->
+    <footer>
+        <h2>SONIC<span class="gradient-text">WAVE</span></h2>
+        <p style="color: #666; margin-top: 10px;">&copy; 2026 Sonic Wave Music Festival. Barcha huquqlar himoyalangan.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Shopping Cart State
+        let cart = [];
+
+        function toggleCart() {
+            document.getElementById('cartModal').classList.toggle('open');
+        }
+
+        function addToCart(title, price, type) {
+            const existingItem = cart.find(item => item.title === title);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ title, price, type, quantity: 1 });
+            }
+            updateCartUI();
+            showToast(`"${title}" savatga qo'shildi!`);
+        }
+
+        function changeQty(index, delta) {
+            cart[index].quantity += delta;
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItemsList = document.getElementById('cartItemsList');
+            const cartCount = document.getElementById('cartCount');
+            const totalAmount = document.getElementById('totalAmount');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            cartCount.innerText = totalItems;
+            totalAmount.innerText = totalPrice.toLocaleString() + " UZS";
+
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = `<p style="color: #666; text-align: center; margin-top: 50px;">Savatingiz hozircha bo'sh.</p>`;
+                return;
+            }
+
+            cartItemsList.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="item-details">
+                        <h4>${item.title}</h4>
+                        <p>${item.price.toLocaleString()} UZS x ${item.quantity}</p>
+                    </div>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMerch(category, btnElement) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const cards = document.querySelectorAll('.merch-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function handleCheckout(event) {
+            event.preventDefault();
+            if (cart.length === 0) {
+                alert("Savatingiz bo'sh! Iltimos, oldin mahsulot tanlang.");
+                return;
+            }
+            alert("Rahmat! Buyurtmangiz qabul qilindi. Tez orada siz bilan bog'lanamiz va elektron chiptangizni yuboramiz.");
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        // Size button selection
+        document.addEventListener('click', function(e) {
+            if(e.target.classList.contains('size-btn')) {
+                const parent = e.target.parentElement;
+                parent.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
